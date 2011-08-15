@@ -281,16 +281,19 @@ def report_clusters(hdfs_input, local_json_output, sample, category, make_faces,
         name, ext = os.path.splitext(facestr)
         m = re.match('(\w+)-face-x0(\d+)-y0(\d+)-x1(\d+)-y1(\d+)', name)
         print name
-        hash, l, t, r, b = m.groups()
-        l,t,r,b = map(int, (l,t,r,b))
-        #m = re.match('(\w+)-face-x0(\d+)-y0(\d+)-x1(\d+)-y1(\d+)', name)
-        #hash, l, t, r, b = m.groups()
-        return {
-            'hash': hash,
-            'categories': ['faces'],
-            'faces': [{'boundingbox': ((l,t),(r,b))}],
-            'video': [],
-        }
+        try:
+            hash, l, t, r, b = m.groups()
+            l,t,r,b = map(int, (l,t,r,b))
+            #m = re.match('(\w+)-face-x0(\d+)-y0(\d+)-x1(\d+)-y1(\d+)', name)
+            #hash, l, t, r, b = m.groups()
+            return {
+                'hash': hash,
+                'categories': ['faces'],
+                'faces': [{'boundingbox': ((l,t),(r,b))}],
+                'video': [],
+                }
+        except:
+            return {}
 
     # Collect all the clusters as a set of lists
     clusters = {}
